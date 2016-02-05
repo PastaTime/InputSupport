@@ -2,9 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 public class Controller : MonoBehaviour {
 	//Set to true to disable input
-	public bool disableInput = false; 
+	public bool disablePollingGlobal = false; 
 	//Set to true if you only want the user to have restricted input access for this scene
-	public bool restrictInputs = false; 
+	public bool restrictPollingGlobal = false; 
 	//User editable list of gamepads to monitor. Note, gamepadlist will not update dynamically.
 	public ControlType[] controllerList;
 	//The list of gamepads being monitored.
@@ -19,7 +19,7 @@ public class Controller : MonoBehaviour {
 		Note: Any form of GetKeyDown(String) will be assumed to be a keyboard input poll.
 	*/
 	public static bool GetKeyDown(KeyCode key) {
-		return GetActiveInputs().Contains(key);
+		return Input.GetKeyDown(key);
 	}
 	
 	/*
@@ -72,8 +72,8 @@ public class Controller : MonoBehaviour {
 		_gamePadList = new GamePad[controllerList.Length];
 		for (int i = 0; i < controllerList.Length; i++) {
 			_gamePadList[i] = new GamePad(controllerList[i]);
-			_gamePadList[i].SetRestrictInput(restrictInputs);
-			_gamePadList[i].SetDisableInput(disableInput);
+			_gamePadList[i].SetRestictedPolling(restrictPollingGlobal);
+			_gamePadList[i].SetDisablePolling(disablePollingGlobal);
 		}
 	}
 	
@@ -81,7 +81,7 @@ public class Controller : MonoBehaviour {
 		Polls controller for button statuses.
 	*/
 	void Update() {
-		if (!disableInput) {
+		if (!disablePollingGlobal) {
 			foreach (GamePad value in _gamePadList) {
 				value.RefreshAll();
 			}

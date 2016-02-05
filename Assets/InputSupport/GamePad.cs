@@ -8,9 +8,9 @@ public class GamePad {
 	//A restricted list of button inputs
 	private Button[] _inputListRestricted;
 	//Determines Whether input will be polled from inputList or inputListRestricted
-	private bool _restrictInput = false;
+	private bool _restrictGamePadSpecificPolling = false;
 	//Determines Whether input will be disabled or not.
-	private bool _disableInput = false;
+	private bool _disableGamePadSpecificPolling = false;
 	
 	public GamePad(ControlType control) {
 		_control = control;
@@ -24,8 +24,8 @@ public class GamePad {
 		will be polled (efficiency).
 	*/
 	public void RefreshAll() {
-		if (_disableInput) { return; }
-		if (_restrictInput) {
+		if (_disableGamePadSpecificPolling) { return; }
+		if (_restrictGamePadSpecificPolling) {
 			foreach (Button value in _inputListRestricted) {
 				value.Refresh();
 			}
@@ -56,12 +56,12 @@ public class GamePad {
 		A method of improving efficiency (somewhat) under situations 
 		when only a selection of known buttons are required.
 	*/
-	public void SetRestrictInput(bool restriction) { _restrictInput = restriction; }
-	public bool GetRestrictedInput() { return _restrictInput; }
+	public void SetRestictedPolling(bool restriction) { _restrictGamePadSpecificPolling = restriction; }
+	public bool GetRestictedPolling() { return _restrictGamePadSpecificPolling; }
 	
 	/*
 		Sets disabled input. When true, input from this game pad will not be polled.
 	*/
-	public void SetDisableInput(bool disable) {	_disableInput = disable; }
-	public bool GetDisableInput() { return _disableInput; }
+	public void SetDisablePolling(bool disable) {	_disableGamePadSpecificPolling = disable; }
+	public bool GetDisablePolling() { return _disableGamePadSpecificPolling; }
 }
