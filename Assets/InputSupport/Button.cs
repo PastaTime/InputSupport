@@ -6,10 +6,16 @@ The button class represents a possible joystick button.
 */
 public class Button {
 	private string _virtualName;
-	private ControlType _controlType; //The type of controller from the 5 available
-	private ButtonType _buttonType; //The type of button from the 20 available
-	private bool _down = false; //Whether the button was down last poll
+	//The type of controller this button maps too (See ControlType.cs)
+	private ControlType _controlType; 
+	//The button type being mapped (See ButtonType.cs)
+	private ButtonType _buttonType; 
+	//Whether this button was down last poll
+	private bool _down = false; 
 	
+	/*
+		Constructor must specify both Controller and Button Type
+	*/
 	public Button(ControlType control,ButtonType button) {
 		_controlType = control;
 		_buttonType = button;
@@ -21,10 +27,10 @@ public class Button {
 	}
 	
 	/*
-	Used to poll the button status
-	Buttons who are polled as down are stored in currentlyPressed and passed to GamePad
+		Used to poll the button status
+		Buttons who are polled as down are stored in currentlyPressed and passed to GamePad
 	*/
-	public void Refresh(ICollection<Button> currentlyPressed) {
+	public void Refresh() {
 		_down = Input.GetKey(_virtualName);
 		if (_down) {
 			Controller.ActiveInput.Add(this.ToKeyCode());
@@ -38,7 +44,7 @@ public class Button {
 	}
 	
 	public override string ToString() {
-		return _virtualName + ">>" + this.ToKeyCode().ToString();
+		return _virtualName + "::" + this.ToKeyCode().ToString();
 	}
 	
 	//Formula to convert Joystick number and button number to corresponding keycode.
